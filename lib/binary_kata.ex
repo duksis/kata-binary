@@ -4,17 +4,20 @@ defmodule BinaryKata do
   Should return `true` when given parameter start with UTF8 Byte-Order-Mark, otherwise `false`.
   @see https://en.wikipedia.org/wiki/Byte_order_mark
   """
-  def has_utf8_bom?(_), do: raise "TODO: Implement me!"
+  def has_utf8_bom?(<<0xef,0xbb,0xbf,_ :: binary>>), do: true
+  def has_utf8_bom?(_), do: false
 
   @doc """
   Remove a UTF8 BOM if exists.
   """
-  def remove_utf8_bom(_), do: raise "TODO: Implement me!"
+  def remove_utf8_bom(<<0xef,0xbb,0xbf,rest :: binary>>), do: rest
+  def remove_utf8_bom(<<everything :: binary>>), do: everything
 
   @doc """
   Add a UTF8 BOM if not exists.
   """
-  def add_utf8_bom(_), do: raise "TODO: Implement me!"
+  def add_utf8_bom(everything = <<0xef,0xbb,0xbf,rest :: binary>>), do: everything
+  def add_utf8_bom(everything), do: <<0xef,0xbb,0xbf>> <> everything
 
   @doc """
   Detecting types of images by their first bytes / magic numbers.
